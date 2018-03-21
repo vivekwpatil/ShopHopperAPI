@@ -2,27 +2,26 @@ package be.ing.api.rest.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Date;
 
 @Builder
-//@Entity
 @Getter
-//@Table(name = "Receipt")
+@Setter
 public class Receipt {
 
-    /*public Receipt(String amount, String date, String itemDescription){
-        this.amount = amount;
-        this.date = date;
-        this.itemDescription=itemDescription;
-
-    }*/
-
-    //@GeneratedValue(strategy = GenerationType.AUTO)
-    private long receiptId;
-
-    private String merchant;
-    private String amount;
-    private String date;
-    private String itemDescription;
-
+    private int receiptId;
+    private String receiptUserId;
+    private int receiptShopId;
+    private Date receiptDate;
+    private long receiptTotalAmount;
+    private long receiptTotalVAT;
+    private long receiptTotalDiscount;
+    private String receiptPaymentInformation;
 
 }

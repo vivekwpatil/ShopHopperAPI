@@ -4,69 +4,68 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
-/*
+
 @Entity
-@Table(name = "Receipt")*/
+@Table(name = "Receipt")
 public class ReceiptEntity {
 
-    /*public ReceiptEntity(String merchant, String amount, String date, String itemDescription){
-        this.merchant = merchant;
-        this.amount = amount;
-        this.date = date;
-        this.itemDescription=itemDescription;
+    @Id
+    @Column(name = "receipt_id")
+    private int receiptId;
 
-    }*/
+    @Column(name = "receipt_user_id")
+    private String receiptUserId;
 
-    //@GeneratedValue(strategy = GenerationType.AUTO)
-    private long receiptId;
+    @Column(name = "receipt_shop_id")
+    private int receiptShopId;
 
-    private String merchant;
-    private String amount;
-    private String date;
-    private String itemDescription;
+    @Column(name = "receipt_date")
+    private Date receiptDate;
 
-    public long getReceiptId() {
-        return receiptId;
-    }
+    @Column(name = "receipt_total_amount")
+    private int receiptTotalAmount;
 
-    public String getMerchant() {
-        return merchant;
-    }
+    @Column(name = "receipt_total_VAT")
+    private int receiptTotalVAT;
 
-    public String getAmount() {
-        return amount;
-    }
+    @Column(name = "receipt_total_discount")
+    private int receiptTotalDiscount;
 
-    public String getDate() {
-        return date;
-    }
+    @Column(name = "receipt_payment_information")
+    private String receiptPaymentInformation;
 
-    public String getItemDescription() {
-        return itemDescription;
-    }
-
-    public void setReceiptId(long receiptId) {
+    public void setReceiptId(int receiptId) {
         this.receiptId = receiptId;
     }
 
-    public void setMerchant(String merchant) {
-        this.merchant = merchant;
+    public void setReceiptUserId(String receiptUserId) {
+        this.receiptUserId = receiptUserId;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setReceiptShopId(int receiptShopId) {
+        this.receiptShopId = receiptShopId;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setReceiptDate(Date receiptDate) {
+        this.receiptDate = receiptDate;
     }
 
-    public void setItemDescription(String itemDescription) {
-        this.itemDescription = itemDescription;
+    public void setReceiptTotalAmount(int receiptTotalAmount) {
+        this.receiptTotalAmount = receiptTotalAmount;
+    }
+
+    public void setReceiptTotalVAT(int receiptTotalVAT) {
+        this.receiptTotalVAT = receiptTotalVAT;
+    }
+
+    public void setReceiptTotalDiscount(int receiptTotalDiscount) {
+        this.receiptTotalDiscount = receiptTotalDiscount;
+    }
+
+    public void setReceiptPaymentInformation(String receiptPaymentInformation) {
+        this.receiptPaymentInformation = receiptPaymentInformation;
     }
 }

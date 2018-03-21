@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -28,11 +29,14 @@ public class ReceiptsResource {
         List receipts =  receiptsDBService.getReceipts();
         for(Object r : receipts){
             Receipt re =( Receipt) r;
-            System.out.println(""+re.getItemDescription());
+            System.out.println(""+re.getReceiptPaymentInformation());
 
         }
-        return ReceiptsResponse.builder().receipts(Arrays.asList(Receipt.builder().amount("600").merchant("Mediamart").receiptId(Long.valueOf("1234")).date("08/03/2018").itemDescription("TV").build(),
-                Receipt.builder().amount("800").merchant("Fnac").receiptId(Long.valueOf("5678")).date("08/03/2019").itemDescription("Ipad").build())).build();
+
+       return ReceiptsResponse.builder().receipts(Arrays.asList(Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build()
+                , Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build())).build();
+
+
     }
 
     @RequestMapping(value = "/receipts/{receiptId}", method = RequestMethod.GET)

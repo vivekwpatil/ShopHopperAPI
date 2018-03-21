@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -18,8 +19,8 @@ public class ReceiptsDBService {
 
     public List<Object> getReceipts() {
         Iterable<Receipt> iterable
-                = Arrays.asList(Receipt.builder().amount("600").merchant("Mediamart").receiptId(Long.valueOf("1234")).date("08/03/2018").itemDescription("TV").build()
-                , Receipt.builder().amount("600").merchant("Mediamart").receiptId(Long.valueOf("1234")).date("08/03/2018").itemDescription("TV").build());
+                = Arrays.asList(Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build()
+                , Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build());
 
         List<Object> receipts = StreamSupport
                 .stream(iterable.spliterator(), false)
@@ -33,7 +34,9 @@ public class ReceiptsDBService {
 
     public Receipt getReceipt(String receiptId) {
 
-        return Receipt.builder().amount("600").merchant("Mediamart").receiptId(Long.valueOf("1234")).date("08/03/2018").itemDescription("TV").build();
+        //TODO: Implement logic to get particular receipt based on id
+
+        return Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build();
 
     }
 
@@ -41,8 +44,8 @@ public class ReceiptsDBService {
     public String createReceipt(Receipt receipt) {
 
         ReceiptEntity receiptEntity = new ReceiptEntity();
-        receiptEntity.setAmount(receipt.getAmount());
-        receiptEntity.setDate(receipt.getDate());
+
+        //implement logic to insert receipt in DB
 
         return "Receipt created";
 
