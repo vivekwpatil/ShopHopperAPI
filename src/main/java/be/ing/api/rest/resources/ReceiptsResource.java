@@ -1,5 +1,6 @@
 package be.ing.api.rest.resources;
 
+import be.ing.api.provider.ReceiptEntity;
 import be.ing.api.provider.ReceiptsDBService;
 import be.ing.api.rest.dto.Receipt;
 import be.ing.api.rest.dto.ReceiptsResponse;
@@ -11,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,17 +26,28 @@ public class ReceiptsResource {
     @RequestMapping(value = "/receipts", method = RequestMethod.GET)
     public ReceiptsResponse getAllReceipts() {
 
-        List receipts =  receiptsDBService.getReceipts();
-        for(Object r : receipts){
-            Receipt re =( Receipt) r;
-            System.out.println(""+re.getReceiptPaymentInformation());
+        List receipts = receiptsDBService.getReceipts();
+        List receiptNew = new ArrayList();
+        for (Object r : receipts) {
+            ReceiptEntity re = (ReceiptEntity) r;
+            receiptNew.add(Receipt.builder().receiptDate(re.getReceiptDate())
+                            .receiptId(re.getReceiptId())
+                            .receiptUserId(re.getReceiptUserId())
+                            .receiptPaymentInformation(re.getReceiptPaymentInformation())
+                            .receiptShopId(re.getReceiptShopId())
+                            .receiptTotalAmount(re.getReceiptTotalAmount())
+                            .receiptTotalDiscount(re.getReceiptTotalDiscount())
+                            .receiptTotalVAT(re.getReceiptTotalVAT())
+                            .build()
+            );
 
         }
 
-       return ReceiptsResponse.builder().receipts(Arrays.asList(Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build()
+       /*return ReceiptsResponse.builder().receipts(Arrays.asList(Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build()
                 , Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build())).build();
+*/
 
-
+        return ReceiptsResponse.builder().receipts(receiptNew).build();
     }
 
     @RequestMapping(value = "/receipts/{receiptId}", method = RequestMethod.GET)

@@ -23,10 +23,10 @@ public class ReceiptsDBService {
                 , Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build());
 
         List<Object> receipts = StreamSupport
-                .stream(iterable.spliterator(), false)
+                .stream(receiptDAO.findAll().spliterator(), false)
                 .collect(Collectors.toList());
 
-        Iterable<TestEntity> tests = receiptDAO.findAll();
+        Iterable<ReceiptEntity> tests = receiptDAO.findAll();
 
         return receipts;
 

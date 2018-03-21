@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -37,6 +39,9 @@ public class ReceiptEntity {
     @Column(name = "receipt_payment_information")
     private String receiptPaymentInformation;
 
+    @ElementCollection(targetClass = ItemEntity.class)
+    private List<ItemEntity> items = new ArrayList<ItemEntity>(0);
+
     public void setReceiptId(int receiptId) {
         this.receiptId = receiptId;
     }
@@ -67,5 +72,45 @@ public class ReceiptEntity {
 
     public void setReceiptPaymentInformation(String receiptPaymentInformation) {
         this.receiptPaymentInformation = receiptPaymentInformation;
+    }
+
+    public List<ItemEntity> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemEntity> items) {
+        this.items = items;
+    }
+
+    public int getReceiptId() {
+        return receiptId;
+    }
+
+    public String getReceiptUserId() {
+        return receiptUserId;
+    }
+
+    public int getReceiptShopId() {
+        return receiptShopId;
+    }
+
+    public Date getReceiptDate() {
+        return receiptDate;
+    }
+
+    public int getReceiptTotalAmount() {
+        return receiptTotalAmount;
+    }
+
+    public int getReceiptTotalVAT() {
+        return receiptTotalVAT;
+    }
+
+    public int getReceiptTotalDiscount() {
+        return receiptTotalDiscount;
+    }
+
+    public String getReceiptPaymentInformation() {
+        return receiptPaymentInformation;
     }
 }
