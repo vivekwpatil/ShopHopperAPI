@@ -28,7 +28,7 @@ public class ReceiptEntity {
     private int receiptShopId;
 
     @Column(name = "receipt_date")
-    private Date receiptDate;
+    private Date receiptDate = new Date();
 
     @Column(name = "receipt_total_amount")
     private int receiptTotalAmount;
@@ -46,12 +46,20 @@ public class ReceiptEntity {
     @JsonManagedReference
     private List<ItemEntity> items;
 
-    /*ReceiptEntity(ReceiptEntity receiptEntity){
-        this.receiptDate = receiptEntity.getReceiptDate();
-        this.receiptId = receiptEntity.getReceiptId();
+    ReceiptEntity(){
+
+    }
+
+    ReceiptEntity(ReceiptEntity receiptEntity){
+        /*this.receiptDate = receiptEntity.getReceiptDate();
         this.receiptPaymentInformation = receiptEntity.getReceiptPaymentInformation();
-        //this.receiptShopId
-    }*/
+        this.receiptShopId = receiptEntity.getReceiptShopId();
+        this.receiptTotalAmount = receiptEntity.receiptTotalAmount;
+        this.receiptTotalDiscount = receiptEntity.receiptTotalDiscount;
+        this.receiptTotalVAT = receiptEntity.receiptTotalVAT;
+        this.receiptUserId = receiptEntity.receiptUserId;
+        this.items = receiptEntity.getItems();*/
+    }
 
     public List<ItemEntity> getItems() {
         return items;

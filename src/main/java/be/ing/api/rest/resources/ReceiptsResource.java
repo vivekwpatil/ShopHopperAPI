@@ -8,6 +8,7 @@ import be.ing.api.rest.dto.ReceiptsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -30,15 +31,15 @@ public class ReceiptsResource {
         for (Object r : receipts) {
             ReceiptEntity re = (ReceiptEntity) r;
             receiptNew.add(Receipt.builder().receiptDate(re.getReceiptDate())
-                            .receiptId(re.getReceiptId())
-                            .receiptUserId(re.getReceiptUserId())
-                            .receiptPaymentInformation(re.getReceiptPaymentInformation())
-                            .receiptShopId(re.getReceiptShopId())
-                            .receiptTotalAmount(re.getReceiptTotalAmount())
-                            .receiptTotalDiscount(re.getReceiptTotalDiscount())
-                            .receiptTotalVAT(re.getReceiptTotalVAT())
-                            .receiptItems(re.getItems())
-                            .build()
+                    .receiptId(re.getReceiptId())
+                    .receiptUserId(re.getReceiptUserId())
+                    .receiptPaymentInformation(re.getReceiptPaymentInformation())
+                    .receiptShopId(re.getReceiptShopId())
+                    .receiptTotalAmount(re.getReceiptTotalAmount())
+                    .receiptTotalDiscount(re.getReceiptTotalDiscount())
+                    .receiptTotalVAT(re.getReceiptTotalVAT())
+                    .receiptItems(re.getItems())
+                    .build()
             );
 
         }
@@ -75,15 +76,12 @@ public class ReceiptsResource {
 
     }
 
-    /*@RequestMapping(value = "/receipt", method = RequestMethod.POST)
+    @RequestMapping(value = "/receipt", method = RequestMethod.POST)
     public ReceiptEntity createReceipt(
-            @RequestBody @NotNull Receipt receipt
+            @RequestBody @NotNull ReceiptEntity receipt
     ) {
-        return (ReceiptEntity) receiptsDBService.createReceipt(receipt);
-
-
-
-    }*/
+        return receiptsDBService.createReceipt(receipt);
+    }
 
 
 }

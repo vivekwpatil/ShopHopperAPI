@@ -35,14 +35,12 @@ public class ReceiptsDBService {
     }
 
 
-    /*public Object createReceipt(Receipt receipt) {
-
-        ReceiptEntity receiptEntity = new ReceiptEntity(receipt);
+    public ReceiptEntity createReceipt(ReceiptEntity receipt) {
+        ReceiptEntity savedArticle = receiptDAO.save(receipt);
+        return savedArticle;
 
         //implement logic to insert receipt in DB
 
-        return "Receipt created";
-
-    }*/
+    }
 
 }
