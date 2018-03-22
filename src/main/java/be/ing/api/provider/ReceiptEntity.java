@@ -1,5 +1,7 @@
 package be.ing.api.provider;
 
+import be.ing.api.rest.dto.Item;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -39,8 +42,24 @@ public class ReceiptEntity {
     @Column(name = "receipt_payment_information")
     private String receiptPaymentInformation;
 
-    @ElementCollection(targetClass = ItemEntity.class)
-    private List<ItemEntity> items = new ArrayList<ItemEntity>(0);
+    @OneToMany(mappedBy="receipt")
+    @JsonManagedReference
+    private List<ItemEntity> items;
+
+    /*ReceiptEntity(ReceiptEntity receiptEntity){
+        this.receiptDate = receiptEntity.getReceiptDate();
+        this.receiptId = receiptEntity.getReceiptId();
+        this.receiptPaymentInformation = receiptEntity.getReceiptPaymentInformation();
+        //this.receiptShopId
+    }*/
+
+    public List<ItemEntity> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemEntity> items) {
+        this.items = items;
+    }
 
     public void setReceiptId(int receiptId) {
         this.receiptId = receiptId;
@@ -72,14 +91,6 @@ public class ReceiptEntity {
 
     public void setReceiptPaymentInformation(String receiptPaymentInformation) {
         this.receiptPaymentInformation = receiptPaymentInformation;
-    }
-
-    public List<ItemEntity> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ItemEntity> items) {
-        this.items = items;
     }
 
     public int getReceiptId() {

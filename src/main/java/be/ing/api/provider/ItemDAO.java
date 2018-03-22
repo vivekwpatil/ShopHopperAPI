@@ -1,7 +1,8 @@
 package be.ing.api.provider;
 
-/**
- * Created by D-YD95PD on 22/03/2018.
- */
-public class ItemDAO {
+import org.springframework.data.repository.CrudRepository;
+
+public interface ItemDAO extends CrudRepository<ReceiptEntity,Long > {
+
+
 }

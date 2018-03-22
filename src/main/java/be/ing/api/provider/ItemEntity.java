@@ -1,9 +1,8 @@
 package be.ing.api.provider;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -14,8 +13,10 @@ public class ItemEntity {
     @Column(name = "item_id")
     private int itemId;
 
-    @Column(name = "receipt_id")
-    private int receiptId;
+    @ManyToOne
+    @JoinColumn(name="receipt_id", nullable = false)
+    @JsonBackReference
+    private ReceiptEntity receipt;
 
     @Column(name = "item_number")
     private int itemNumber;
@@ -42,5 +43,93 @@ public class ItemEntity {
     private Date itemWarantyEndDate;
 
     @Column(name = "item_type_code")
-    private int itemTypeCode;
+    private String itemTypeCode;
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public ReceiptEntity getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(ReceiptEntity receipt) {
+        this.receipt = receipt;
+    }
+
+    public int getItemNumber() {
+        return itemNumber;
+    }
+
+    public void setItemNumber(int itemNumber) {
+        this.itemNumber = itemNumber;
+    }
+
+    public int getItemUnitCount() {
+        return itemUnitCount;
+    }
+
+    public void setItemUnitCount(int itemUnitCount) {
+        this.itemUnitCount = itemUnitCount;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public int getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(int itemPrice) {
+        this.itemPrice = itemPrice;
+    }
+
+    public int getItemUnitPrice() {
+        return itemUnitPrice;
+    }
+
+    public void setItemUnitPrice(int itemUnitPrice) {
+        this.itemUnitPrice = itemUnitPrice;
+    }
+
+    public String getItemCategory() {
+        return itemCategory;
+    }
+
+    public void setItemCategory(String itemCategory) {
+        this.itemCategory = itemCategory;
+    }
+
+    public int getItemDiscount() {
+        return itemDiscount;
+    }
+
+    public void setItemDiscount(int itemDiscount) {
+        this.itemDiscount = itemDiscount;
+    }
+
+    public Date getItemWarantyEndDate() {
+        return itemWarantyEndDate;
+    }
+
+    public void setItemWarantyEndDate(Date itemWarantyEndDate) {
+        this.itemWarantyEndDate = itemWarantyEndDate;
+    }
+
+    public String getItemTypeCode() {
+        return itemTypeCode;
+    }
+
+    public void setItemTypeCode(String itemTypeCode) {
+        this.itemTypeCode = itemTypeCode;
+    }
 }

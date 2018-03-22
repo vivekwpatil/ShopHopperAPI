@@ -1,15 +1,14 @@
 package be.ing.api.rest.resources;
 
+import be.ing.api.provider.ItemDBService;
 import be.ing.api.provider.ReceiptEntity;
 import be.ing.api.provider.ReceiptsDBService;
 import be.ing.api.rest.dto.Receipt;
 import be.ing.api.rest.dto.ReceiptsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import java.util.List;
 public class ReceiptsResource {
 
     @Autowired
-    ReceiptsDBService receiptsDBService;
+    private ReceiptsDBService receiptsDBService;
 
     @RequestMapping(value = "/receipts", method = RequestMethod.GET)
     public ReceiptsResponse getAllReceipts() {
@@ -38,6 +37,7 @@ public class ReceiptsResource {
                             .receiptTotalAmount(re.getReceiptTotalAmount())
                             .receiptTotalDiscount(re.getReceiptTotalDiscount())
                             .receiptTotalVAT(re.getReceiptTotalVAT())
+                            .receiptItems(re.getItems())
                             .build()
             );
 
@@ -51,22 +51,39 @@ public class ReceiptsResource {
     }
 
     @RequestMapping(value = "/receipts/{receiptId}", method = RequestMethod.GET)
-    public Receipt getAllReceipts(
-            @PathVariable("receiptId") String receiptId
+    public ReceiptsResponse getReceiptsByUserId(
+            @PathVariable("receiptId") String userId
     ) {
-        System.out.println("receiptid received is ::" + receiptId);
+        List receipts = receiptsDBService.getReceiptsByUserId(userId);
+        List receiptNew = new ArrayList();
+        for (Object r : receipts) {
+            ReceiptEntity re = (ReceiptEntity) r;
+            receiptNew.add(Receipt.builder().receiptDate(re.getReceiptDate())
+                    .receiptId(re.getReceiptId())
+                    .receiptUserId(re.getReceiptUserId())
+                    .receiptPaymentInformation(re.getReceiptPaymentInformation())
+                    .receiptShopId(re.getReceiptShopId())
+                    .receiptTotalAmount(re.getReceiptTotalAmount())
+                    .receiptTotalDiscount(re.getReceiptTotalDiscount())
+                    .receiptTotalVAT(re.getReceiptTotalVAT())
+                    .receiptItems(re.getItems())
+                    .build()
+            );
+        }
+        return ReceiptsResponse.builder().receipts(receiptNew).build();
 
-        return receiptsDBService.getReceipt(receiptId);
+
     }
 
-    @RequestMapping(value = "/receipt", method = RequestMethod.POST)
-    public void createReceipt(
-            @NotNull Receipt receipt
+    /*@RequestMapping(value = "/receipt", method = RequestMethod.POST)
+    public ReceiptEntity createReceipt(
+            @RequestBody @NotNull Receipt receipt
     ) {
-        receiptsDBService.createReceipt(receipt);
+        return (ReceiptEntity) receiptsDBService.createReceipt(receipt);
 
 
-    }
+
+    }*/
 
 
 }

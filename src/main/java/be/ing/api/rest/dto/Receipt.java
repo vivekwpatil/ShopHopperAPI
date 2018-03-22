@@ -1,14 +1,13 @@
 package be.ing.api.rest.dto;
 
+import be.ing.api.provider.ItemEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Builder
 @Getter
@@ -23,5 +22,6 @@ public class Receipt {
     private long receiptTotalVAT;
     private long receiptTotalDiscount;
     private String receiptPaymentInformation;
+    private List<ItemEntity> receiptItems;
 
 }

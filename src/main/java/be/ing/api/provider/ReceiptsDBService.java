@@ -16,39 +16,33 @@ public class ReceiptsDBService {
 
     @Autowired
     private ReceiptDAO receiptDAO;
-
     public List<Object> getReceipts() {
-        Iterable<Receipt> iterable
-                = Arrays.asList(Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build()
-                , Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build());
-
-        List<Object> receipts = StreamSupport
+        return StreamSupport
                 .stream(receiptDAO.findAll().spliterator(), false)
                 .collect(Collectors.toList());
 
-        Iterable<ReceiptEntity> tests = receiptDAO.findAll();
-
-        return receipts;
-
     }
 
-    public Receipt getReceipt(String receiptId) {
+    public List<Object> getReceiptsByUserId(String userId) {
 
         //TODO: Implement logic to get particular receipt based on id
 
-        return Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build();
+        return StreamSupport
+                .stream(receiptDAO.findAll().spliterator(), false)
+                .filter(receipt -> receipt.getReceiptUserId().equals(userId))
+                .collect(Collectors.toList());
 
     }
 
 
-    public String createReceipt(Receipt receipt) {
+    /*public Object createReceipt(Receipt receipt) {
 
-        ReceiptEntity receiptEntity = new ReceiptEntity();
+        ReceiptEntity receiptEntity = new ReceiptEntity(receipt);
 
         //implement logic to insert receipt in DB
 
         return "Receipt created";
 
-    }
+    }*/
 
 }
