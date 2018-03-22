@@ -1,14 +1,9 @@
 package be.ing.api.rest.resources;
 
-import be.ing.api.provider.ItemDBService;
-import be.ing.api.provider.ReceiptEntity;
-import be.ing.api.provider.ReceiptsDBService;
-import be.ing.api.rest.dto.Receipt;
-import be.ing.api.rest.dto.ReceiptsResponse;
+import be.ing.api.provider.*;
+import be.ing.api.rest.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
@@ -22,52 +17,58 @@ public class ReceiptsResource {
 
     @Autowired
     private ReceiptsDBService receiptsDBService;
+    @Autowired
+    private ShopsDBService shopDBService;
 
-    @RequestMapping(value = "/receipts", method = RequestMethod.GET)
-    public ReceiptsResponse getAllReceipts() {
+    @RequestMapping(value = "/receipts/test/{shopId}", method = RequestMethod.GET)
+    public ReceiptsResponse getAllReceipts(@PathVariable("shopId") int shopId) {
 
         List receipts = receiptsDBService.getReceipts();
+        ShopEntity shop = (ShopEntity) shopDBService.getShopById(shopId);
         List receiptNew = new ArrayList();
         for (Object r : receipts) {
             ReceiptEntity re = (ReceiptEntity) r;
             receiptNew.add(Receipt.builder().receiptDate(re.getReceiptDate())
                     .receiptId(re.getReceiptId())
+                    .receiptShopInformation(
+                            Shop.builder().shopPhoneNumber(shop.getShopPhoneNumber())
+                            .shopAddress(shop.getShopAddress())
+                            .shopName(shop.getShopName()).build()
+                    )
                     .receiptUserId(re.getReceiptUserId())
                     .receiptPaymentInformation(re.getReceiptPaymentInformation())
-                    .receiptShopId(re.getReceiptShopId())
                     .receiptTotalAmount(re.getReceiptTotalAmount())
                     .receiptTotalDiscount(re.getReceiptTotalDiscount())
                     .receiptTotalVAT(re.getReceiptTotalVAT())
-                    .receiptItems(re.getItems())
+                    .itemsHyperLink("http://localhost:8080/shophopper/items/" + re.getReceiptId())
                     .build()
             );
-
         }
-
-       /*return ReceiptsResponse.builder().receipts(Arrays.asList(Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build()
-                , Receipt.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build())).build();
-*/
-
         return ReceiptsResponse.builder().receipts(receiptNew).build();
     }
 
-    @RequestMapping(value = "/receipts/{receiptId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/receipts/{userId}", method = RequestMethod.GET)
     public ReceiptsResponse getReceiptsByUserId(
-            @PathVariable("receiptId") String userId
+            @PathVariable("userId") String userId
     ) {
         List receipts = receiptsDBService.getReceiptsByUserId(userId);
         List receiptNew = new ArrayList();
         for (Object r : receipts) {
             ReceiptEntity re = (ReceiptEntity) r;
+            ShopEntity shop = (ShopEntity) shopDBService.getShopById(re.getShop().getShopId());
             receiptNew.add(Receipt.builder().receiptDate(re.getReceiptDate())
                     .receiptId(re.getReceiptId())
+                    .receiptShopInformation(
+                            Shop.builder().shopPhoneNumber(shop.getShopPhoneNumber())
+                                    .shopAddress(shop.getShopAddress())
+                                    .shopName(shop.getShopName()).build()
+                    )
                     .receiptUserId(re.getReceiptUserId())
                     .receiptPaymentInformation(re.getReceiptPaymentInformation())
-                    .receiptShopId(re.getReceiptShopId())
                     .receiptTotalAmount(re.getReceiptTotalAmount())
                     .receiptTotalDiscount(re.getReceiptTotalDiscount())
                     .receiptTotalVAT(re.getReceiptTotalVAT())
-                    .receiptItems(re.getItems())
+                    .itemsHyperLink("http://localhost:8080/shophopper/items/" + re.getReceiptId())
                     .build()
             );
         }
@@ -77,11 +78,38 @@ public class ReceiptsResource {
     }
 
     @RequestMapping(value = "/receipt", method = RequestMethod.POST)
-    public ReceiptEntity createReceipt(
-            @RequestBody @NotNull ReceiptEntity receipt
+    public ReceiptEntityLinked createReceipt(
+            @RequestBody @NotNull ReceiptEntityLinked receipt
     ) {
         return receiptsDBService.createReceipt(receipt);
     }
 
+    @RequestMapping(value = "/receiptsTest", method = RequestMethod.GET)
+    public ReceiptsResponse getReceiptsWithHyperLinks() {
+
+        List receipts = receiptsDBService.getReceipts();
+        List receiptNew = new ArrayList();
+        for (Object r : receipts) {
+            ReceiptEntity re = (ReceiptEntity) r;
+            receiptNew.add(Receipt.builder().receiptDate(re.getReceiptDate())
+                    .receiptId(re.getReceiptId())
+                    /*.receiptShopInformation()*/
+                    .receiptUserId(re.getReceiptUserId())
+                    .receiptPaymentInformation(re.getReceiptPaymentInformation())
+                    .receiptTotalAmount(re.getReceiptTotalAmount())
+                    .receiptTotalDiscount(re.getReceiptTotalDiscount())
+                    .receiptTotalVAT(re.getReceiptTotalVAT())
+                    .itemsHyperLink("http://localhost:8080/shophopper/items/" + re.getReceiptId())
+                    .build()
+            );
+
+        }
+
+       /*return ReceiptsLinkedResponse.builder().receipts(Arrays.asList(ReceiptLinked.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build()
+                , ReceiptLinked.builder().receiptTotalAmount(600).receiptShopId(123).receiptId(1234).receiptDate(new Date("08/03/2018")).receiptPaymentInformation("TV").build())).build();
+*/
+
+        return ReceiptsResponse.builder().receipts(receiptNew).build();
+    }
 
 }

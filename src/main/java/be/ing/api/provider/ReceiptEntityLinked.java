@@ -1,9 +1,6 @@
 package be.ing.api.provider;
 
-import be.ing.api.rest.dto.Shop;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -13,9 +10,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "receipt")
-public class ReceiptEntity {
+public class ReceiptEntityLinked {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "receipt_id")
     private int receiptId;
 
@@ -24,6 +22,9 @@ public class ReceiptEntity {
 
     @Column(name = "receipt_date")
     private Date receiptDate = new Date();
+
+    @Column(name = "shop_id")
+    private int shopId;
 
     @Column(name = "receipt_total_amount")
     private int receiptTotalAmount;
@@ -37,25 +38,15 @@ public class ReceiptEntity {
     @Column(name = "receipt_payment_information")
     private String receiptPaymentInformation;
 
-    @ManyToOne
-    @JoinColumn(name="shop_id")
-    @JsonBackReference
-    private ShopEntity shop;
+    @OneToMany(mappedBy="receipt")
+    @JsonManagedReference
+    private List<ItemEntityLinked> items;
 
-    public ShopEntity getShop() {
-        return shop;
-    }
-
-    public void setShop(ShopEntity shop) {
-        this.shop = shop;
-    }
-
-
-    ReceiptEntity(){
+    ReceiptEntityLinked(){
 
     }
 
-    ReceiptEntity(ReceiptEntityLinked receiptEntity){
+    ReceiptEntityLinked(ReceiptEntityLinked receiptEntity){
         /*this.receiptDate = receiptEntity.getReceiptDate();
         this.receiptPaymentInformation = receiptEntity.getReceiptPaymentInformation();
         this.receiptShopId = receiptEntity.getReceiptShopId();
@@ -64,6 +55,14 @@ public class ReceiptEntity {
         this.receiptTotalVAT = receiptEntity.receiptTotalVAT;
         this.receiptUserId = receiptEntity.receiptUserId;
         this.items = receiptEntity.getItems();*/
+    }
+
+    public List<ItemEntityLinked> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemEntityLinked> items) {
+        this.items = items;
     }
 
     public void setReceiptId(int receiptId) {
@@ -120,5 +119,13 @@ public class ReceiptEntity {
 
     public String getReceiptPaymentInformation() {
         return receiptPaymentInformation;
+    }
+
+    public int getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
     }
 }

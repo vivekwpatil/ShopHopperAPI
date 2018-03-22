@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class Shop {
-
     private String shopName;
-
+    private String shopAddress;
+    private String shopPhoneNumber;
 }

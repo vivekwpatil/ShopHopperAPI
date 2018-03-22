@@ -7,14 +7,17 @@ import java.util.Date;
 
 @Entity
 @Table(name = "item")
-public class ItemEntity {
+public class ItemEntityLinked {
 
     @Id
     @Column(name = "item_id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int itemId;
 
-    @Column(name = "receipt_id")
-    private int receiptId;
+    @ManyToOne
+    @JoinColumn(name="receipt_id", nullable = false)
+    @JsonBackReference
+    private ReceiptEntityLinked receipt;
 
     @Column(name = "item_number")
     private int itemNumber;
@@ -51,12 +54,12 @@ public class ItemEntity {
         this.itemId = itemId;
     }
 
-    public int getReceiptId() {
-        return receiptId;
+    public ReceiptEntityLinked getReceipt() {
+        return receipt;
     }
 
-    public void setReceiptId(int receiptId) {
-        this.receiptId = receiptId;
+    public void setReceipt(ReceiptEntityLinked receipt) {
+        this.receipt = receipt;
     }
 
     public int getItemNumber() {

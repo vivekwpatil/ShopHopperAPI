@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.util.Date;
 
 
 /**
@@ -24,6 +24,6 @@ public class Item {
     private int itemDiscount;
     private Date itemWarantyEndDate;
     private String itemTypeCode;
-    private Receipt receipt;
+    //private ReceiptLinked receipt;
 
 }

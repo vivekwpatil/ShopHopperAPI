@@ -1,12 +1,9 @@
 package be.ing.api.provider;
 
 
-import be.ing.api.rest.dto.Receipt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -15,7 +12,10 @@ import java.util.stream.StreamSupport;
 public class ReceiptsDBService {
 
     @Autowired
+    private ReceiptDAOLinked receiptDAOLinked;
+    @Autowired
     private ReceiptDAO receiptDAO;
+
     public List<Object> getReceipts() {
         return StreamSupport
                 .stream(receiptDAO.findAll().spliterator(), false)
@@ -35,8 +35,8 @@ public class ReceiptsDBService {
     }
 
 
-    public ReceiptEntity createReceipt(ReceiptEntity receipt) {
-        ReceiptEntity savedArticle = receiptDAO.save(receipt);
+    public ReceiptEntityLinked createReceipt(ReceiptEntityLinked receipt) {
+        ReceiptEntityLinked savedArticle = receiptDAOLinked.save(receipt);
         return savedArticle;
 
         //implement logic to insert receipt in DB

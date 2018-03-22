@@ -5,13 +5,9 @@ import lombok.Getter;
 
 import java.util.List;
 
-/**
- * Created by D-YD95PD on 22/03/2018.
- */
-
 @Getter
 @Builder
-public class ReceiptsResponse {
+public class ReceiptsLinkedResponse {
 
-    private List<Receipt> receipts;
+    private List<ReceiptLinked> receipts;
 }
