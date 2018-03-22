@@ -1,16 +1,10 @@
 package be.ing.api.provider;
 
-import be.ing.api.rest.dto.Item;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -24,8 +18,8 @@ public class ReceiptEntity {
     @Column(name = "receipt_user_id")
     private String receiptUserId;
 
-    @Column(name = "receipt_shop_id")
-    private int receiptShopId;
+    @Column(name = "shop_id")
+    private int shopId;
 
     @Column(name = "receipt_date")
     private Date receiptDate;
@@ -46,12 +40,10 @@ public class ReceiptEntity {
     @JsonManagedReference
     private List<ItemEntity> items;
 
-    /*ReceiptEntity(ReceiptEntity receiptEntity){
-        this.receiptDate = receiptEntity.getReceiptDate();
-        this.receiptId = receiptEntity.getReceiptId();
-        this.receiptPaymentInformation = receiptEntity.getReceiptPaymentInformation();
-        //this.receiptShopId
-    }*/
+    @OneToOne(mappedBy="receipt")
+    @JsonManagedReference
+    private ShopEntity shopEntity;
+
 
     public List<ItemEntity> getItems() {
         return items;
@@ -69,8 +61,8 @@ public class ReceiptEntity {
         this.receiptUserId = receiptUserId;
     }
 
-    public void setReceiptShopId(int receiptShopId) {
-        this.receiptShopId = receiptShopId;
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
     }
 
     public void setReceiptDate(Date receiptDate) {
@@ -101,8 +93,8 @@ public class ReceiptEntity {
         return receiptUserId;
     }
 
-    public int getReceiptShopId() {
-        return receiptShopId;
+    public int getShopId() {
+        return shopId;
     }
 
     public Date getReceiptDate() {
@@ -123,5 +115,13 @@ public class ReceiptEntity {
 
     public String getReceiptPaymentInformation() {
         return receiptPaymentInformation;
+    }
+
+    public ShopEntity getShopEntity() {
+        return shopEntity;
+    }
+
+    public void setShopEntity(ShopEntity shopEntity) {
+        this.shopEntity = shopEntity;
     }
 }
