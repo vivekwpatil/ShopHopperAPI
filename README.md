@@ -1,2 +1,3 @@
 # ShopHopperAPI
-Shophopper APi
+Shophopper API
+ - GET /receipts
