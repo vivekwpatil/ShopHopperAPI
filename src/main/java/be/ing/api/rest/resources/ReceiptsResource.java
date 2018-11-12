@@ -20,6 +20,7 @@ public class ReceiptsResource {
     @Autowired
     private ShopsDBService shopDBService;
 
+    //get list of receipts
     @RequestMapping(value = "/receipts/test/{shopId}", method = RequestMethod.GET)
     public ReceiptsResponse getAllReceipts(@PathVariable("shopId") int shopId) {
 
