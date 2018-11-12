@@ -48,6 +48,7 @@ public class ReceiptsResource {
         return ReceiptsResponse.builder().receipts(receiptNew).build();
     }
 
+    //get list of  single receipt
     @RequestMapping(value = "/receipts/{userId}", method = RequestMethod.GET)
     public ReceiptsResponse getReceiptsByUserId(
             @PathVariable("userId") String userId
