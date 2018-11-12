@@ -6,7 +6,7 @@
 
     <groupId>com.ing.ing</groupId>
     <artifactId>ShopHopperAPI</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.3-SNAPSHOT</version>
     <!--<packaging>war</packaging>-->
 
 <dependencies>
