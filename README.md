@@ -1,5 +1,5 @@
 # ShopHopperAPI
- Used for mobile application showing all the receipts
+ Used for mobile application showing all the receipts and items
  
 Shophopper API
  - GET /receipts
