@@ -22,6 +22,7 @@ public class ItemsResource {
     @Autowired
     private ItemsDBService itemsDBService;
 
+    //GET list of items
     @RequestMapping(value = "/items", method = RequestMethod.GET)
     public ItemResponse getAllReceipts() {
 
