@@ -4,4 +4,5 @@ Shophopper API
  - GET /receipts/{id}
  
 - GET /items
+- GET /items/{id}
  
